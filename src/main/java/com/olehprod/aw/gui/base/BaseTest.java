@@ -5,10 +5,9 @@ import com.olehprod.aw.gui.enums.LocatorType;
 import com.olehprod.aw.gui.pages.MainPage;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -23,8 +22,6 @@ import org.testng.reporters.XMLReporter;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,11 +57,11 @@ public class BaseTest {
      * Set up method
      */
     @BeforeTest
-    protected void setUp() throws IOException {
+    protected void setUp() {
         // Create instance of WebDriver
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chrome/chromedriver.exe");
-        driver = new RemoteWebDriver(getHub(),
-                getChromeCapabilities(getChromeEmulationMode(new ChromeOptions(), EmulationMode.IPAD_PRO.getEmulator())));
+        ChromeOptions chromeOptions = new ChromeOptions().addArguments("disable-infobars", "--disable-extensions", "test-type");
+        driver = new ChromeDriver(getChromeEmulationMode(chromeOptions, EmulationMode.IPAD_PRO.getEmulator()));
 
         setTimeouts(driver);
 
@@ -150,21 +147,6 @@ public class BaseTest {
     }
 
     /**
-     * Get Chrome capabilities
-     *
-     * @param chromeOptions
-     * @return DesiredCapabilities
-     */
-    private DesiredCapabilities getChromeCapabilities(ChromeOptions chromeOptions) {
-        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        chromeOptions.addArguments("disable-infobars");
-        chromeOptions.addArguments("--disable-extensions");
-        chromeOptions.addArguments("test-type");
-        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-        return capabilities;
-    }
-
-    /**
      * Get Chrome emulation mode
      *
      * @param deviceName
@@ -175,23 +157,6 @@ public class BaseTest {
         mobileEmulation.put("deviceName", deviceName);
         chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
         return chromeOptions;
-    }
-
-    /**
-     * Get hub
-     *
-     * @return URL
-     */
-    private URL getHub() {
-        String urlStr = "http://localhost:16804/";
-        URL hubUrl = null;
-        try {
-            hubUrl = new URL(urlStr);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            Assert.fail("Can't create hub by URL: " + urlStr);
-        }
-        return hubUrl;
     }
 
     /**
