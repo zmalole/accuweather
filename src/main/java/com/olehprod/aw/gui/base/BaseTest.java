@@ -51,7 +51,6 @@ public class BaseTest {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chrome_win32.exe");
         ChromeOptions chromeOptions = new ChromeOptions().addArguments("disable-infobars", "--disable-extensions", "test-type");
         driver = new ChromeDriver(getChromeEmulationMode(chromeOptions, EmulationMode.IPAD_PRO.getEmulator()));
-        driver.manage().window().maximize();
         // Actions is a user-facing API for emulating complex user gestures. Use this class rather than
         // using the Keyboard or Mouse directly.
         actions = new Actions(driver);
