@@ -17,7 +17,7 @@ public class CurrentLocationPage extends AbstractLocationPage {
     }
 
     /**
-     * Get real feel temperature
+     * Get real feel weather
      *
      * @return realFeelTemp
      */
@@ -26,7 +26,7 @@ public class CurrentLocationPage extends AbstractLocationPage {
     }
 
     /**
-     * Get current temperature
+     * Get current weather
      *
      * @return currentTemp
      */
@@ -35,10 +35,10 @@ public class CurrentLocationPage extends AbstractLocationPage {
     }
 
     /**
-     * Get current temperature
+     * Get current weather
      *
      * @param selectorClass
-     * @return temperature from custom selectorClass
+     * @return weather from custom selectorClass
      */
     private int getCurrentTemp(String selectorClass) {
         String realFeelTemp = testClass.findElement(

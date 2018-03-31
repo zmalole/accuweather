@@ -2,14 +2,12 @@ package com.olehprod.aw.gui.pages;
 
 import com.olehprod.aw.gui.base.BaseTest;
 import com.olehprod.aw.gui.enums.ElementAttribute;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 public abstract class AbstractPage {
 
-    protected final WebDriver driver;
     protected BaseTest testClass;
 
     /**
@@ -19,16 +17,14 @@ public abstract class AbstractPage {
      */
     public AbstractPage(BaseTest testClass) {
         this.testClass = testClass;
-        driver = testClass.getWebDriver();
-
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(this.testClass.getWebDriver(), this);
     }
 
     /**
-     * Get the lowest temperature
+     * Get the lowest weather
      *
      * @param temp
-     * @return String - the lowest temperature
+     * @return String - the lowest weather
      */
     protected String getLowestTemp(String temp) {
         return temp.substring(temp.indexOf('/') + 1);

@@ -25,7 +25,7 @@ public class MainPage extends AbstractPage {
      */
     public MainPage(BaseTest testClass) {
         super(testClass);
-        testClass.log(">>> Initializing the page <%s> <<<", this.getClass().getSimpleName());
+        testClass.log(">>> Initializing <%s> <<<", this.getClass().getSimpleName());
 
         // Verify that page content was loaded
         testClass.waitTillElementIsVisible(navigationBar);

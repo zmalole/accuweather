@@ -28,9 +28,9 @@ public class TableMonthLocationPage extends AbstractMonthLocationPage {
     }
 
     /**
-     * Get the lowest temperature for current month
+     * Get the lowest weather for current month
      *
-     * @return int - the lowest temperature
+     * @return int - the lowest weather
      */
     public int getLowestTempForMonth() {
         testClass.waitTillElementsAreVisible(highLowTempList);
@@ -50,9 +50,9 @@ public class TableMonthLocationPage extends AbstractMonthLocationPage {
     }
 
     /**
-     * Get the lowest temperature for today
+     * Get the lowest weather for today
      *
-     * @return int - the lowest temperature
+     * @return int - the lowest weather
      */
     public int getLowestTempForToday() {
         testClass.waitTillElementIsVisible(highLowTempToday);

@@ -1,26 +1,16 @@
 package com.olehprod.aw.gui.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ElementAttribute {
 
     VALUE("value");
 
     private final String attribute;
 
-    /**
-     * Constructor
-     *
-     * @param attribute
-     */
     ElementAttribute(String attribute) {
         this.attribute = attribute;
     }
 
-    /**
-     * Getter
-     *
-     * @return attribute
-     */
-    public String getAttribute() {
-        return attribute;
-    }
 }
