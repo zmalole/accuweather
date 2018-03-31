@@ -1,15 +1,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name = "Temperature Suite">
+<suite name = "Weather">
 
     <listeners>
         <listener class-name = "com.olehprod.aw.gui.listeners.TestListener" />
     </listeners>
 
-    <test name = "Compare Temperature test">
-        <packages>
-            <package name= "com.olehprod.aw.gui.tests.temperature" />
-        </packages>
+    <test name = "Temperature test">
+        <classes>
+            <class name= "com.olehprod.aw.gui.tests.weather.TemperatureTest" />
+        </classes>
     </test>
 
 </suite>
