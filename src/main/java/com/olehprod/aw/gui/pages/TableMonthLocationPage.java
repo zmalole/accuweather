@@ -18,20 +18,10 @@ public class TableMonthLocationPage extends AbstractMonthLocationPage {
             "//table[contains(@class, 'calendar')]//tr[contains(@class, 'today')]//td[1]")
     protected WebElement highLowTempToday;
 
-    /**
-     * Constructor
-     *
-     * @param testClass
-     */
     public TableMonthLocationPage(BaseTest testClass) {
         super(testClass);
     }
 
-    /**
-     * Get the lowest weather for current month
-     *
-     * @return int - the lowest weather
-     */
     public int getLowestTempForMonth() {
         testClass.waitTillElementsAreVisible(highLowTempList);
 
@@ -49,11 +39,6 @@ public class TableMonthLocationPage extends AbstractMonthLocationPage {
         return highLowTempValues.get(0);
     }
 
-    /**
-     * Get the lowest weather for today
-     *
-     * @return int - the lowest weather
-     */
     public int getLowestTempForToday() {
         testClass.waitTillElementIsVisible(highLowTempToday);
 

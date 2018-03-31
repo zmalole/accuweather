@@ -10,33 +10,15 @@ public abstract class AbstractPage {
 
     protected BaseTest testClass;
 
-    /**
-     * Constructor
-     *
-     * @param testClass
-     */
     public AbstractPage(BaseTest testClass) {
         this.testClass = testClass;
         PageFactory.initElements(this.testClass.getWebDriver(), this);
     }
 
-    /**
-     * Get the lowest weather
-     *
-     * @param temp
-     * @return String - the lowest weather
-     */
     protected String getLowestTemp(String temp) {
         return temp.substring(temp.indexOf('/') + 1);
     }
 
-    /**
-     * If text contains data, populate a field with it
-     * Expect exactly this text to be present in element value
-     *
-     * @param element
-     * @param text
-     */
     private void populateElementWithValidData(WebElement element, String text) {
         String value = ElementAttribute.VALUE.getAttribute();
         element.clear();

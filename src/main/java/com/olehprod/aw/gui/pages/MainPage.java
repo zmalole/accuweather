@@ -1,9 +1,11 @@
 package com.olehprod.aw.gui.pages;
 
 import com.olehprod.aw.gui.base.BaseTest;
+import lombok.extern.java.Log;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Log
 public class MainPage extends AbstractPage {
 
     @FindBy(id = "header-nav")
@@ -18,14 +20,9 @@ public class MainPage extends AbstractPage {
     @FindBy(css = "#findcity > button.bt-go")
     protected WebElement searchButton;
 
-    /**
-     * Constructor
-     *
-     * @param testClass
-     */
     public MainPage(BaseTest testClass) {
         super(testClass);
-        testClass.log(">>> Initializing <%s> <<<", this.getClass().getSimpleName());
+        log.info(String.format(">>> Initializing <%s> <<<", this.getClass().getSimpleName()));
 
         // Verify that page content was loaded
         testClass.waitTillElementIsVisible(navigationBar);
