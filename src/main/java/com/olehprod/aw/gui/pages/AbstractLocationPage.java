@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public abstract class AbstractLocationPage extends MainPage {
 
     @FindBy(xpath = "//div[contains(@class, 'sub-header-wrap')]" +
-            "//div[contains(@class, 'inner-subnav')]//ul[contains(@class, 'subnav-tab-buttons')]/li[.='Month']")
+            "//div[contains(@class, 'inner-subnav')]//ul[contains(@class, 'subnav-tab-buttons')]/li[.='Месяц']")
     protected WebElement month;
 
     public AbstractLocationPage(BaseTest testClass) {
