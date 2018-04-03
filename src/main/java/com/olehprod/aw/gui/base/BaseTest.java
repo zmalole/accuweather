@@ -38,9 +38,10 @@ public class BaseTest {
 
     private static final String BASE_URL = "https://www.accuweather.com/";
 
-    // Only explicit timeotis like best practices did
-    protected static final int EXPLICIT = 4;
+    // Only explicit timeouts like best practice
+    protected static final int EXPLICIT = 8;
 
+    // Anyway BaseTest can be created only by page classes
     public WebDriver getWebDriver() {
         return driver;
     }
@@ -57,7 +58,7 @@ public class BaseTest {
     }
 
     @AfterMethod
-    protected void afterMethod(ITestResult testResult) throws IOException {
+    protected void afterMethod(ITestResult testResult) {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             snapScreenshot();
         }
@@ -68,13 +69,6 @@ public class BaseTest {
         driver.quit();
     }
 
-    /**
-     * Find element by any locator
-     *
-     * @param locatorType
-     * @param locatorStr
-     * @return WebElement
-     */
     public WebElement findElement(LocatorType locatorType, String locatorStr) {
         WebElement element = null;
         try {
@@ -121,12 +115,6 @@ public class BaseTest {
         return element;
     }
 
-    /**
-     * Get Chrome emulation mode
-     *
-     * @param deviceName
-     * @return ChromeOptions
-     */
     private ChromeOptions getChromeEmulationMode(ChromeOptions chromeOptions, String deviceName) {
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", deviceName);
@@ -144,32 +132,12 @@ public class BaseTest {
         return Integer.parseInt(str.replaceAll(".*?([-+]?\\d+).*", "$1"));
     }
 
-    /**
-     * Create log message
-     *
-     * @param message
-     * @param arguments
-     */
-    public void log(String message, String... arguments) {
-        log.info(String.format(message, arguments));
-    }
-
-    /**
-     * Open weather website
-     *
-     * @return MainPage
-     */
     public MainPage openWeather() {
         driver.get(BASE_URL);
         return new MainPage(this);
     }
 
-    /**
-     * Snap screenshot file
-     *
-     * @throws IOException
-     */
-    private void snapScreenshot() throws IOException {
+    private void snapScreenshot() {
         DateFormat date = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
         String fileName = this.getClass().getName() + "_" + date.format(new Date());
         String screenshotPath = System.getProperties().get("user.dir") + "\\screenshots\\";
@@ -182,21 +150,11 @@ public class BaseTest {
         }
     }
 
-    /**
-     * Wait till element is clickable and click on it
-     *
-     * @param element
-     */
     public void waitTillClickableAndClickElement(WebElement element) {
         waitTillElementIsClickable(element);
         element.click();
     }
 
-    /**
-     * Repeatedly check if element is clickable
-     *
-     * @param element
-     */
     public void waitTillElementIsClickable(WebElement element) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, EXPLICIT);
@@ -210,22 +168,10 @@ public class BaseTest {
         actions.moveToElement(element).build().perform();
     }
 
-    /**
-     * Repeatedly check if the element is visible
-     *
-     * @param element
-     */
     public void waitTillElementIsVisible(WebElement element) {
         waitTillElementIsVisible(element, false, EXPLICIT);
     }
 
-    /**
-     * Repeatedly check if the element is visible, throw exception if throwException=true
-     *
-     * @param element
-     * @param throwException
-     * @param timeOutInSeconds
-     */
     public void waitTillElementIsVisible(WebElement element, boolean throwException, long timeOutInSeconds) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
@@ -243,22 +189,10 @@ public class BaseTest {
         }
     }
 
-    /**
-     * Repeatedly check if the elements are visible
-     *
-     * @param elements
-     */
     public void waitTillElementsAreVisible(List<WebElement> elements) {
         waitTillElementsAreVisible(elements, false, EXPLICIT);
     }
 
-    /**
-     * Repeatedly check if the elements are visible, throw exception if throwException=true
-     *
-     * @param elements
-     * @param throwException
-     * @param timeOutInSeconds
-     */
     public void waitTillElementsAreVisible(List<WebElement> elements, boolean throwException, long timeOutInSeconds) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);

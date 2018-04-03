@@ -10,20 +10,10 @@ public abstract class AbstractMonthLocationPage extends AbstractLocationPage {
             "//div[contains(@class, 'view')]//a[contains(@class, 'view-list')]/..")
     protected WebElement tableView;
 
-    /**
-     * Constructor
-     *
-     * @param testClass
-     */
     public AbstractMonthLocationPage(BaseTest testClass) {
         super(testClass);
     }
 
-    /**
-     * Table view icon click
-     *
-     * @return TableMonthLocationPage
-     */
     public TableMonthLocationPage tableViewClick() {
         testClass.waitTillClickableAndClickElement(tableView);
         return new TableMonthLocationPage(testClass);

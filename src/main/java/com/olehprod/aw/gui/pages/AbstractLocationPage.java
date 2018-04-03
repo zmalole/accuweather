@@ -10,20 +10,10 @@ public abstract class AbstractLocationPage extends MainPage {
             "//div[contains(@class, 'inner-subnav')]//ul[contains(@class, 'subnav-tab-buttons')]/li[.='Month']")
     protected WebElement month;
 
-    /**
-     * Constructor
-     *
-     * @param testClass
-     */
     public AbstractLocationPage(BaseTest testClass) {
         super(testClass);
     }
 
-    /**
-     * Click on month
-     *
-     * @return CalendarMonthLocationPage
-     */
     public CalendarMonthLocationPage monthClick() {
         testClass.waitTillClickableAndClickElement(month);
         return new CalendarMonthLocationPage(testClass);
