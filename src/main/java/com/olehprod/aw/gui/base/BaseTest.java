@@ -52,6 +52,7 @@ public class BaseTest {
         // TODO: Add Linux and Mac support
         System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chrome_win32.exe");
         ChromeOptions chromeOptions = new ChromeOptions().addArguments("disable-infobars", "--disable-extensions", "test-type");
+        chromeOptions.setCapability("pageLoadStrategy", "none");
         driver = new ChromeDriver(getChromeEmulationMode(chromeOptions, EmulationMode.IPAD_PRO.getEmulator()));
         turnOnImplicitWaits();
         // Actions is a user-facing API for emulating complex user gestures. Use this class rather than
@@ -61,9 +62,7 @@ public class BaseTest {
 
     @AfterMethod
     protected void afterMethod(ITestResult testResult) {
-        if (testResult.getStatus() == ITestResult.FAILURE) {
-            snapScreenshot();
-        }
+        if (testResult.getStatus() == ITestResult.FAILURE) snapScreenshot();
     }
 
     @AfterTest
@@ -74,6 +73,7 @@ public class BaseTest {
     public WebElement findElement(LocatorType locatorType, String locatorStr) {
         WebElement element = null;
         try {
+            turnOffImplicitWaits();
             WebDriverWait wait = new WebDriverWait(driver, EXPLICIT);
 
             By byLocator = null;
@@ -112,6 +112,8 @@ public class BaseTest {
         } catch (TimeoutException e) {
             e.printStackTrace();
             Assert.fail(String.format("Timeout exception caught while waiting for element: <%s>", locatorStr));
+        } finally {
+            turnOnImplicitWaits();
         }
 
         return element;
