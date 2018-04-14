@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Log
 @Listeners({SuiteHTMLReporter.class, XMLReporter.class})
@@ -51,7 +52,9 @@ public class BaseTest {
         // TODO: Add Linux and Mac support
         System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chrome_win32.exe");
         ChromeOptions chromeOptions = new ChromeOptions().addArguments("disable-infobars", "--disable-extensions", "test-type");
+        chromeOptions.setCapability("pageLoadStrategy", "none");
         driver = new ChromeDriver(getChromeEmulationMode(chromeOptions, EmulationMode.IPAD_PRO.getEmulator()));
+        turnOnImplicitWaits();
         // Actions is a user-facing API for emulating complex user gestures. Use this class rather than
         // using the Keyboard or Mouse directly.
         actions = new Actions(driver);
@@ -59,9 +62,7 @@ public class BaseTest {
 
     @AfterMethod
     protected void afterMethod(ITestResult testResult) {
-        if (testResult.getStatus() == ITestResult.FAILURE) {
-            snapScreenshot();
-        }
+        if (testResult.getStatus() == ITestResult.FAILURE) snapScreenshot();
     }
 
     @AfterTest
@@ -72,6 +73,7 @@ public class BaseTest {
     public WebElement findElement(LocatorType locatorType, String locatorStr) {
         WebElement element = null;
         try {
+            turnOffImplicitWaits();
             WebDriverWait wait = new WebDriverWait(driver, EXPLICIT);
 
             By byLocator = null;
@@ -110,6 +112,8 @@ public class BaseTest {
         } catch (TimeoutException e) {
             e.printStackTrace();
             Assert.fail(String.format("Timeout exception caught while waiting for element: <%s>", locatorStr));
+        } finally {
+            turnOnImplicitWaits();
         }
 
         return element;
@@ -150,19 +154,32 @@ public class BaseTest {
         }
     }
 
+    private void turnOffImplicitWaits() {
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+    }
+
+    private void turnOnImplicitWaits() {
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
+
     public void waitTillClickableAndClickElement(WebElement element) {
         waitTillElementIsClickable(element);
+        turnOffImplicitWaits();
         element.click();
+        turnOnImplicitWaits();
     }
 
     public void waitTillElementIsClickable(WebElement element) {
         try {
+            turnOffImplicitWaits();
             WebDriverWait wait = new WebDriverWait(driver, EXPLICIT);
             wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(element));
         } catch (NoSuchElementException e) {
             Assert.fail("NoSuchElement exception caught for element " + e.toString());
         } catch (TimeoutException e) {
             Assert.fail("Timeout exception caught for element " + e.toString());
+        } finally {
+            turnOnImplicitWaits();
         }
 
         actions.moveToElement(element).build().perform();
@@ -174,6 +191,7 @@ public class BaseTest {
 
     public void waitTillElementIsVisible(WebElement element, boolean throwException, long timeOutInSeconds) {
         try {
+            turnOffImplicitWaits();
             WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
             wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOf(element));
         } catch (NoSuchElementException e) {
@@ -186,6 +204,8 @@ public class BaseTest {
                 throw (e);
             }
             Assert.fail("Timeout exception caught for element " + e.toString());
+        } finally {
+            turnOnImplicitWaits();
         }
     }
 
@@ -195,6 +215,7 @@ public class BaseTest {
 
     public void waitTillElementsAreVisible(List<WebElement> elements, boolean throwException, long timeOutInSeconds) {
         try {
+            turnOffImplicitWaits();
             WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
             wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.visibilityOfAllElements(elements));
         } catch (NoSuchElementException e) {
@@ -207,6 +228,8 @@ public class BaseTest {
                 throw (e);
             }
             Assert.fail("Timeout exception caught for element " + e.toString());
+        } finally {
+            turnOnImplicitWaits();
         }
     }
 
